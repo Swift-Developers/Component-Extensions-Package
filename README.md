@@ -1,2 +1,3 @@
-# Component-Extensions-Package
-SPM
+# Extensions
+
+A description of this package.
