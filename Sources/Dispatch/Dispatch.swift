@@ -7,8 +7,8 @@ extension DispatchQueue {
         
         queue.setSpecific(key: key, value: ())
         defer { queue.setSpecific(key: key, value: nil) }
-
-        return DispatchQueue.getSpecific(key: key) != nil
+        
+        return getSpecific(key: key) != nil
     }
     
     /// 安全同步执行
