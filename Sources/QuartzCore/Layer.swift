@@ -53,6 +53,7 @@ extension CALayer {
 }
 
 extension CALayer {
+    
     /// 暂停动画
     public func pauseAnimation() {
         //取出当前时间,转成动画暂停的时间

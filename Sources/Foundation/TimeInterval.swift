@@ -8,6 +8,8 @@ extension TimeInterval {
         case since(Date)
     }
     
+    /// 转为时间
+    /// - Parameter type: 类型
     public func toDate(_ type: DateType = .since1970) -> Date {
         switch type {
         case .since1970:        return .init(timeIntervalSince1970: self)

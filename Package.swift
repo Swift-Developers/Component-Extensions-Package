@@ -47,7 +47,8 @@ let package = Package(
             dependencies: [
                 "Extensions-Stdlib",
                 "Extensions-UIKit",
-                "Extensions-Foundation"
+                "Extensions-Foundation",
+                "Extensions-QuartzCore"
             ],
             path: "Sources",
             sources: ["Extensions"]

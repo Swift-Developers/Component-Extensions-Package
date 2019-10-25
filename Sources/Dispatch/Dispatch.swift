@@ -11,9 +11,9 @@ extension DispatchQueue {
         return getSpecific(key: key) != nil
     }
     
-    /// 安全同步执行
+    /// 安全同步执行 (可防止死锁)
     /// - Parameter queue: 队列
-    /// - Parameter work: 任务
+    /// - Parameter work: 执行
     public static func sync(safe queue: DispatchQueue, execute work: () -> Void) {
         isCurrent(queue) ? work() : queue.sync(execute: work)
     }

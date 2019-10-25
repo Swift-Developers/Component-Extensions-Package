@@ -28,6 +28,8 @@ extension CGImage {
 
 extension UIImage {
     
+    /// 根据质量压缩
+    /// - Parameter maxLength: 最大字节
     public func compressedQuality(_ maxLength: UInt64 = 1024 * 1024) -> UIImage? {
         guard
             var data = jpegData(compressionQuality: 1),
@@ -53,6 +55,8 @@ extension UIImage {
         return UIImage(data: data, scale: scale)
     }
     
+    /// 根据尺寸压缩
+    /// - Parameter maxLength: 最大字节
     public func compressedSize(_ maxLength: UInt64 = 1024 * 1024) -> UIImage? {
         guard
             var data = jpegData(compressionQuality: 1),
@@ -77,6 +81,8 @@ extension UIImage {
         return result
     }
     
+    /// 压缩 (根据质量和尺寸)
+    /// - Parameter maxLength: 最大字节
     public func compressed(maxLength: UInt64 = 1024 * 1024) -> UIImage? {
         guard let image = compressedQuality(maxLength) else {
             return self

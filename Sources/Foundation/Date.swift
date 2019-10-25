@@ -2,6 +2,7 @@ import Foundation
 
 extension Date {
     
+    /// 上午/下午
     public var ampm: String {
         let formatter = DateFormatter()
         formatter.amSymbol = "上午"
@@ -39,6 +40,7 @@ extension Date {
 
 extension Date {
     
+    /// 星座
     public var constellation: String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd"

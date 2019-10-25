@@ -45,10 +45,12 @@ extension UIViewController {
 
 extension UIViewController {
     
+    /// 结束编辑 收齐键盘
     @IBAction func endEditing() {
         view.endEditing(true)
     }
     
+    /// 关闭视图控制器
     @IBAction func close() {
         view.endEditing(true)
         if
