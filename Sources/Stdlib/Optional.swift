@@ -39,7 +39,5 @@ extension BinaryInteger {
     ///        1.isZero -> false
     ///        2.isZero -> false
     ///
-    public var isZero: Bool {
-        return self == 0
-    }
+    public var isZero: Bool { self == 0 }
 }
