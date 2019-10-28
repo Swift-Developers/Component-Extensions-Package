@@ -5,7 +5,7 @@ extension UIColor {
     /// 转换到另一个颜色
     /// - Parameter color: 目标颜色
     /// - Parameter progress: 转换进度 0 - 1
-    func transition(to color: UIColor, progress: CGFloat) -> UIColor {
+    public func transition(to color: UIColor, progress: CGFloat) -> UIColor {
         
         let progress = min(progress, 1.0)
         
@@ -18,7 +18,7 @@ extension UIColor {
     }
     
     /// 红色值 0 - 1
-    var redValue: CGFloat {
+    public var redValue: CGFloat {
         var r: CGFloat = 0
         if getRed(&r, green: nil, blue: nil, alpha: nil) {
             return r
@@ -27,7 +27,7 @@ extension UIColor {
     }
     
     /// 绿色值 0 - 1
-    var greenValue: CGFloat {
+    public var greenValue: CGFloat {
         var g: CGFloat = 0
         if getRed(nil, green: &g, blue: nil, alpha: nil) {
             return g
@@ -36,7 +36,7 @@ extension UIColor {
     }
     
     /// 蓝色值 0 - 1
-    var blueValue: CGFloat {
+    public var blueValue: CGFloat {
         var b: CGFloat = 0
         if getRed(nil, green: nil, blue: &b, alpha: nil) {
             return b
@@ -45,7 +45,7 @@ extension UIColor {
     }
     
     /// 透明值 0 - 1
-    var alphaValue: CGFloat {
+    public var alphaValue: CGFloat {
         var a: CGFloat = 0
         if getRed(nil, green: nil, blue: nil, alpha: &a) {
             return a

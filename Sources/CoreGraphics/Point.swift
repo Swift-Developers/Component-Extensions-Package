@@ -11,10 +11,10 @@ extension CGPoint {
     
     /// Returns a copy with the x value changed.
     public func with(x: CGFloat) -> CGPoint {
-        return CGPoint(x: x, y: y)
+        return .init(x: x, y: y)
     }
     /// Returns a copy with the y value changed.
     public func with(y: CGFloat) -> CGPoint {
-        return CGPoint(x: x, y: y)
+        return .init(x: x, y: y)
     }
 }

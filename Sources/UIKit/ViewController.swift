@@ -1,15 +1,11 @@
 import UIKit
 
-public protocol UIViewControllerType {
-  func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
-}
-
 extension UIViewController {
     
     /// 添加子控制器
     /// - Parameter controller: 控制器
     /// - Parameter container: 容器视图 默认为父控制器view
-    func add(child controller: UIViewController, to container: UIView? = .none) {
+    public func add(child controller: UIViewController, to container: UIView? = .none) {
         addChild(controller)
         (container ?? view)?.addSubview(controller.view)
         controller.view.frame = (container ?? view).bounds
@@ -17,18 +13,17 @@ extension UIViewController {
         controller.didMove(toParent: self)
     }
     
-    /// 移除子控制器
-    /// - Parameter controller: 控制器
-    func remove(child controller: UIViewController) {
-        controller.willMove(toParent: nil)
-        controller.view.removeFromSuperview()
-        controller.removeFromParent()
+    /// 从父控制器移除
+    public func removeFromParentController() {
+        willMove(toParent: nil)
+        view.removeFromSuperview()
+        removeFromParent()
     }
     
     /// 推出控制器 无NavigationController时则present一个NavigationController
     /// - Parameter controller: 控制器
     /// - Parameter animated: 是否动画
-    func push(_ controller: UIViewController, from nav: UINavigationController.Type = UINavigationController.self, animated: Bool = true) {
+    public func push(_ controller: UIViewController, from nav: UINavigationController.Type = UINavigationController.self, animated: Bool = true) {
         if let navigation = self as? UINavigationController {
             navigation.pushViewController(controller, animated: animated)
             
@@ -45,13 +40,15 @@ extension UIViewController {
 
 extension UIViewController {
     
-    /// 结束编辑 收齐键盘
-    @IBAction func endEditing() {
+    /// 结束编辑 收起键盘
+    @IBAction
+    public func endEditing() {
         view.endEditing(true)
     }
     
     /// 关闭视图控制器
-    @IBAction func close() {
+    @IBAction
+    public func close() {
         view.endEditing(true)
         if
             let navigation = navigationController,

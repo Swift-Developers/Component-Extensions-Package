@@ -3,7 +3,7 @@ import CoreGraphics
 extension CGRect {
     
     /// Creates a rect with unnamed arguments.
-    public init(_ origin: CGPoint, _ size: CGSize) {
+    public init(_ origin: CGPoint = .zero, _ size: CGSize = .zero) {
         self.init()
         self.origin = origin
         self.size = size
@@ -131,7 +131,7 @@ extension CGRect {
     }
     /// Returns a copy with the x and y values changed.
     public func with(x: CGFloat, y: CGFloat) -> CGRect {
-        return with(origin: CGPoint(x: x, y: y))
+        return with(origin: .init(x: x, y: y))
     }
     /// Returns a copy with the x value changed.
     public func with(x: CGFloat) -> CGRect {
@@ -148,7 +148,7 @@ extension CGRect {
     }
     /// Returns a copy with the width and height values changed.
     public func with(width: CGFloat, height: CGFloat) -> CGRect {
-        return with(size: CGSize(width: width, height: height))
+        return with(size: .init(width: width, height: height))
     }
     /// Returns a copy with the width value changed.
     public func with(width: CGFloat) -> CGRect {

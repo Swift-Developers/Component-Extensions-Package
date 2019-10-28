@@ -40,6 +40,17 @@ extension Date {
 
 extension Date {
     
+    public func format(_ string: String = "yyyy-MM-dd HH:mm:ss", locale: Locale = .current) -> String {
+        Date.formatter.locale = locale
+        Date.formatter.dateFormat = string
+        return Date.formatter.string(from: self)
+    }
+    
+    private static let formatter = DateFormatter()
+}
+
+extension Date {
+    
     /// 星座
     public var constellation: String? {
         let dateFormatter = DateFormatter()
