@@ -2,7 +2,7 @@ import UIKit
 
 extension UILabel {
     
-    public var requiredWidth: CGFloat {
+    open var requiredWidth: CGFloat {
         let rect = CGRect(
             x: 0,
             y: 0,
