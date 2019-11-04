@@ -37,6 +37,7 @@ final class ExtensionsTests: XCTestCase {
         ("testArray", testArray),
         ("testTimeInterval", testTimeInterval),
         ("testDate", testDate),
+        ("testAssociated", testAssociated)
     ]
 }
 
@@ -103,5 +104,44 @@ extension ExtensionsTests {
     func testDate() {
         let date = Date()
         print(date.constellation ?? "")
+    }
+}
+
+extension ExtensionsTests {
+    
+    private static var testAssociated1Key: Void?
+    private static var testAssociated2Key: Void?
+    
+    func testAssociated() {
+        
+        let object = NSObject()
+        
+        do {
+            let number = 123
+            
+            let old: Int? = object.associated.get(&ExtensionsTests.testAssociated1Key)
+            
+            XCTAssertNil(old)
+            
+            object.associated.set(assign: &ExtensionsTests.testAssociated1Key, number)
+            
+            let new: Int? = object.associated.get(&ExtensionsTests.testAssociated1Key)
+            
+            XCTAssertEqual(new, number)
+        }
+        
+        do {
+            let number = NSString(format: "%d", 321)
+            
+            let old: NSString? = object.associated.get(&ExtensionsTests.testAssociated2Key)
+            
+            XCTAssertNil(old)
+            
+            object.associated.set(retain: &ExtensionsTests.testAssociated2Key, number)
+            
+            let new: NSString? = object.associated.get(&ExtensionsTests.testAssociated2Key)
+            
+            XCTAssertEqual(new, number)
+        }
     }
 }

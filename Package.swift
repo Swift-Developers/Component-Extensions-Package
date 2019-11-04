@@ -24,7 +24,7 @@ let package = Package(
         ),
         .library(
             name: "Extensions-UIKit",
-            targets: ["Extensions-UIKit"]
+            targets: ["Extensions-UIKit", "Extensions-Foundation"]
         ),
         .library(
             name: "Extensions-Foundation",
@@ -60,13 +60,16 @@ let package = Package(
         ),
         .target(
             name: "Extensions-UIKit",
+            dependencies: [
+                "Extensions-Foundation"
+            ],
             path: "Sources",
-            sources: ["UIKit", "CoreGraphics"]
+            sources: ["UIKit"]
         ),
         .target(
             name: "Extensions-Foundation",
             path: "Sources",
-            sources: ["Foundation", "Dispatch"]
+            sources: ["Foundation", "CoreGraphics", "Dispatch"]
         ),
         .target(
             name: "Extensions-QuartzCore",
