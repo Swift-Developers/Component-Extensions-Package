@@ -28,8 +28,6 @@ final class ExtensionsTests: XCTestCase {
             XCTAssertTrue(Thread.current.isMainThread)
         }
     }
-    
-    
 
     static var allTests = [
         ("testExample", testExample),

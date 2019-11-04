@@ -17,8 +17,8 @@ extension UIView {
     private static var cornerRadiiKey: Void?
     
     private class Wrapper<T> {
-        let value: T
-        init(_ value: T) {
+        let value: T?
+        init(_ value: T?) {
             self.value = value
         }
     }
@@ -61,7 +61,6 @@ extension UIView {
             method_getTypeEncoding(swizzledMethod)
         )
         // 如果 class_addMethod 返回 yes,说明当前类中没有要替换方法的实现,所以需要在父类中查找,这时候就用到 method_getImplemetation 去获取 class_getInstanceMethod 里面的方法实现,然后再进行 class_replaceMethod 来实现 Swizzing
-        
         if didAddMethod {
             class_replaceMethod(
                 UIView.self,
