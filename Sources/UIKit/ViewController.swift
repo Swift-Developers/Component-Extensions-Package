@@ -41,13 +41,13 @@ extension UIViewController {
 extension UIViewController {
     
     /// 结束编辑 收起键盘
-    @IBAction
+    @IBAction @objc
     open func endEditing() {
         view.endEditing(true)
     }
     
     /// 关闭视图控制器
-    @IBAction
+    @IBAction @objc
     open func close() {
         view.endEditing(true)
         if

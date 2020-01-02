@@ -19,12 +19,12 @@ extension CGRect {
     // MARK: access shortcuts
     /// Alias for origin.x.
     public var x: CGFloat {
-        get {  origin.x }
-        set {origin.x = newValue }
+        get { origin.x }
+        set { origin.x = newValue }
     }
     /// Alias for origin.y.
     public var y: CGFloat {
-        get {  origin.y }
+        get { origin.y }
         set { origin.y = newValue }
     }
     
