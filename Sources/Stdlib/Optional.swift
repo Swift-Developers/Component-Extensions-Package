@@ -2,7 +2,7 @@
 extension Optional {
     
     /// 可选值为空的时候返回 true
-    var isNone: Bool {
+    public var isNone: Bool {
         switch self {
         case .none: return true
         case .some: return false
@@ -10,25 +10,25 @@ extension Optional {
     }
     
     /// 可选值非空返回 true
-    var isSome: Bool {
+    public var isSome: Bool {
         return !isNone
     }
     
     /// 返回可选值或默认值
     /// - 参数: 如果可选值为空，将会默认值
-    func or(_ default: Wrapped) -> Wrapped {
+    public func or(_ default: Wrapped) -> Wrapped {
         return self ?? `default`
     }
     
     /// 返回可选值或 `else` 表达式返回的值
     /// 例如. optional.or(else: print("Arrr"))
-    func or(else: @autoclosure () -> Wrapped) -> Wrapped {
+    public func or(else: @autoclosure () -> Wrapped) -> Wrapped {
         return self ?? `else`()
     }
     
     /// 当可选值不为空时，返回可选值
     /// 如果为空，抛出异常
-    func or(throw exception: Error) throws -> Wrapped {
+    public func or(throw exception: Error) throws -> Wrapped {
         guard let self = self else { throw exception }
         return self
     }
@@ -37,7 +37,7 @@ extension Optional {
 extension Optional where Wrapped == Error {
     
     /// 当可选值不为空时，执行 `else`
-    func or(_ else: (Error) -> Void) {
+    public func or(_ else: (Error) -> Void) {
         guard let error = self else { return }
         `else`(error)
     }
