@@ -47,8 +47,13 @@ extension UIViewController {
     }
     
     /// 关闭视图控制器
+    @objc
+    public func close() {
+        close { }
+    }
+    
     @IBAction
-    public func close(_ completion: @escaping () -> Void = {}) {
+    open func close(_ completion: @escaping () -> Void) {
         endEditing()
         guard
             let navigation = navigationController,
