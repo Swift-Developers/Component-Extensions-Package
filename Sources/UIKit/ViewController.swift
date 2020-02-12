@@ -53,7 +53,7 @@ extension UIViewController {
     }
     
     @IBAction
-    open func close(completion: @escaping () -> Void) {
+    open func close(with completion: @escaping () -> Void) {
         endEditing()
         guard
             let navigation = navigationController,
@@ -63,7 +63,7 @@ extension UIViewController {
             return
         }
         guard presentedViewController == nil else {
-            dismiss(animated: true) { [weak self] in self?.close(completion) }
+            dismiss(animated: true) { [weak self] in self?.close(with: completion) }
             return
         }
         
