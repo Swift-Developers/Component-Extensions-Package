@@ -67,7 +67,7 @@ extension UIViewController {
         
         CATransaction.begin()
         CATransaction.setCompletionBlock(completion)
-        let temp = navigation.viewControllers.filter { $0 != self }
+        let temp = navigation.viewControllers.filter { $0 != self && $0 != self.parent }
         navigation.setViewControllers(temp, animated: true)
         CATransaction.commit()
     }
