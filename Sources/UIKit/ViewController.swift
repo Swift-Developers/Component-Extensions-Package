@@ -41,30 +41,32 @@ extension UIViewController {
 extension UIViewController {
     
     /// 结束编辑 收起键盘
-    @IBAction @objc
+    @IBAction
     open func endEditing() {
         view.endEditing(true)
     }
     
     /// 关闭视图控制器
-    @IBAction @objc
-    open func close() {
-        view.endEditing(true)
-        if
+    @IBAction
+    public func close(_ completion: @escaping () -> Void = {}) {
+        endEditing()
+        guard
             let navigation = navigationController,
-            navigation.viewControllers.first != self {
-            guard let _ = presentedViewController else {
-                navigation.popViewController(animated: true)
-                return
-            }
-            dismiss(animated: true) {
-                navigation.popViewController(animated: true)
-            }
-            
-        } else {
+            navigation.viewControllers.first != self else {
             let presenting = presentingViewController ?? self
-            presenting.dismiss(animated: true)
+            presenting.dismiss(animated: true, completion: completion)
+            return
         }
+        guard presentedViewController == nil else {
+            dismiss(animated: true) { [weak self] in self?.close(completion) }
+            return
+        }
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        let temp = navigation.viewControllers.filter { $0 != self }
+        navigation.setViewControllers(temp, animated: true)
+        CATransaction.commit()
     }
 }
 
