@@ -48,7 +48,7 @@ extension UIViewController {
     
     /// 关闭视图控制器
     @objc
-    public func close() {
+    open func close() {
         close { }
     }
     
