@@ -51,8 +51,6 @@ extension UIViewController {
     open func close() {
         close { }
     }
-    
-    @IBAction
     open func close(with completion: @escaping () -> Void) {
         endEditing()
         guard
