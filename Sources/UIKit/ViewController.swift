@@ -65,10 +65,22 @@ extension UIViewController {
             return
         }
         
+        func parents(_ controller: UIViewController) -> [UIViewController] {
+            guard let parent = controller.parent else {
+                return [controller]
+            }
+            return [controller] + parents(parent)
+        }
+        
         CATransaction.begin()
         CATransaction.setCompletionBlock(completion)
-        let temp = navigation.viewControllers.filter { $0 != self && $0 != self.parent }
-        navigation.setViewControllers(temp, animated: true)
+        if let top = navigation.topViewController, parents(self).contains(top) {
+            navigation.popViewController(animated: true)
+            
+        } else {
+            let temp = navigation.viewControllers.filter { !parents(self).contains($0) }
+            navigation.setViewControllers(temp, animated: true)
+        }
         CATransaction.commit()
     }
 }
