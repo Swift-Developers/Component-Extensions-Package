@@ -39,7 +39,7 @@ extension AssociatedWrapper where Base: NSObject {
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_RETAIN_NONATOMIC / OBJC_ASSOCIATION_RETAIN
-    public func set(retain key: UnsafeRawPointer, _ value: Any, _ policy: Policy = .nonatomic) {
+    public func set(retain key: UnsafeRawPointer, _ value: Any?, _ policy: Policy = .nonatomic) {
         switch policy {
         case .nonatomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -49,7 +49,7 @@ extension AssociatedWrapper where Base: NSObject {
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_COPY_NONATOMIC / OBJC_ASSOCIATION_COPY
-    public func set(copy key: UnsafeRawPointer, _ value: Any, _ policy: Policy = .nonatomic) {
+    public func set(copy key: UnsafeRawPointer, _ value: Any?, _ policy: Policy = .nonatomic) {
         switch policy {
         case .nonatomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_COPY_NONATOMIC)
