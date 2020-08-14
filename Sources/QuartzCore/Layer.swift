@@ -28,13 +28,13 @@ extension CALayer {
             space: colorSpace,
             bitmapInfo: bitmapInfo.rawValue
         )
-        guard let context = context else {
+        guard let temp = context else {
             return .clear
         }
         
-        context.translateBy(x: -point.x, y: -point.y)
+        temp.translateBy(x: -point.x, y: -point.y)
         
-        render(in: context)
+        render(in: temp)
         
         let r = pixel[0]
         let g = pixel[1]
