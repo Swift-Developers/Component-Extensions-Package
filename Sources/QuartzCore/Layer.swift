@@ -4,19 +4,16 @@ import QuartzCore
 extension CALayer {
     
     /// 获取图片
-    /// - Parameter scale: 缩放
+    /// - Parameter scale: 比例
     public func toImage(scale: CGFloat = UIScreen.main.scale) -> UIImage? {
-        guard let context = UIGraphicsGetCurrentContext() else {
-            return nil
-        }
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
         render(in: context)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    /// 获取Layer某一点颜色值
+    /// 获取某一点颜色
     /// - Parameter point: 点
     public func toColor(point: CGPoint) -> UIColor {
         var pixel = [UInt8](repeatElement(0, count: 4))
@@ -31,24 +28,24 @@ extension CALayer {
             space: colorSpace,
             bitmapInfo: bitmapInfo.rawValue
         )
-        if let context = context {
-            
-            context.translateBy(x: -point.x, y: -point.y)
-            
-            render(in: context)
-            
-            let r = pixel[0]
-            let g = pixel[1]
-            let b = pixel[2]
-            let a = pixel[3]
-            return UIColor(
-                red:    CGFloat(r) / 255.0,
-                green:  CGFloat(g) / 255.0,
-                blue:   CGFloat(b) / 255.0,
-                alpha:  CGFloat(a) / 255.0
-            )
+        guard let context = context else {
+            return .clear
         }
-        return .clear
+        
+        context.translateBy(x: -point.x, y: -point.y)
+        
+        render(in: context)
+        
+        let r = pixel[0]
+        let g = pixel[1]
+        let b = pixel[2]
+        let a = pixel[3]
+        return UIColor(
+            red:    .init(r) / 255.0,
+            green:  .init(g) / 255.0,
+            blue:   .init(b) / 255.0,
+            alpha:  .init(a) / 255.0
+        )
     }
 }
 
