@@ -5,7 +5,7 @@ extension FileManager {
     /// 获取文件大小
     /// - Parameter path: 路径
     /// - Returns: Bytes
-    func fileSize(at path: String) -> Int64? {
+    public func fileSize(at path: String) -> Int64? {
         var isDirectory: ObjCBool = false
         guard fileExists(atPath: path, isDirectory: &isDirectory) else {
             return nil
