@@ -26,7 +26,6 @@ extension UIApplication {
     
     /// 广告标识符
     public static var IDFA: String? {
-        ASIdentifierManager.shared().isAdvertisingTrackingEnabled ?
-            ASIdentifierManager.shared().advertisingIdentifier.uuidString : nil
+        ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }
 }
