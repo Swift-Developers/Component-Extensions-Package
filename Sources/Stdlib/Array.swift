@@ -23,40 +23,32 @@ extension Array where Element: Equatable {
     }
 }
 
+extension Array where Element: Equatable {
+    
+    /// 移除重复元素
+    public func deduplication() -> [Element] {
+        return deduplication(where: { $0 })
+    }
+}
+
 extension Array {
     
-    /// 过滤重复元素
+    /// 移除重复元素
     /// - Parameter path: KeyPath条件
-    public func filtered<E: Equatable>(duplication path: KeyPath<Element, E>) -> [Element] {
+    public func deduplication<E: Equatable>(for path: KeyPath<Element, E>) -> [Element] {
         return reduce(into: [Element]()) { (result, e) in
             let contains = result.contains { $0[keyPath: path] == e[keyPath: path] }
             result += contains ? [] : [e]
         }
     }
     
-    /// 过滤重复元素
+    /// 移除重复元素
     /// - Parameter closure: 过滤条件
-    public func filtered<E: Equatable>(duplication closure: (Element) throws -> E) rethrows -> [Element] {
+    public func deduplication<E: Equatable>(where closure: (Element) throws -> E) rethrows -> [Element] {
         return try reduce(into: [Element]()) { (result, e) in
             let contains = try result.contains { try closure($0) == closure(e) }
             result += contains ? [] : [e]
         }
-    }
-    
-    /// 过滤重复元素
-    /// - Parameter path: KeyPath条件
-    @discardableResult
-    public mutating func filter<E: Equatable>(duplication path: KeyPath<Element, E>) -> [Element] {
-        self = filtered(duplication: path)
-        return self
-    }
-    
-    /// 过滤重复元素
-    /// - Parameter closure: 过滤条件
-    @discardableResult
-    public mutating func filter<E: Equatable>(duplication closure: (Element) throws -> E) rethrows -> [Element] {
-        self = try filtered(duplication: closure)
-        return self
     }
 }
 

@@ -49,7 +49,7 @@ extension ExtensionsTests {
         let array: [Model] = [.init(id: 0, name: "a"), .init(id: 1, name: "b"), .init(id: 0, name: "c")]
         
         // 过滤重复元素
-        XCTAssertEqual(array.filtered(duplication: \.id), [.init(id: 0, name: "a"), .init(id: 1, name: "b")])
+        XCTAssertEqual(array.deduplication(for: \.id), [.init(id: 0, name: "a"), .init(id: 1, name: "b")])
         
         // 获取指定条件元素的下标集合
         XCTAssertEqual(array.indexs({ $0.id == 0 }), [0, 2])
