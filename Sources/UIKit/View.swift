@@ -192,3 +192,20 @@ extension UIView {
         }
     }
 }
+
+public extension UIView {
+    
+    var snapshotPDF: Data? {
+        let datas = NSMutableData()
+        UIGraphicsBeginPDFContextToData(datas, bounds, nil)
+        defer { UIGraphicsEndPDFContext() }
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        context.beginPDFPage(nil)
+        context.translateBy(x: 0, y: bounds.size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        layer.render(in: context)
+        context.endPDFPage()
+        context.closePDF()
+        return datas as Data
+    }
+}
