@@ -115,7 +115,7 @@ public extension UIImage {
     ///   - size:  image's size.
     ///   - scale: The scale factor.  Default: UIScreen.main.scale
     convenience init?(emoji: String, size: CGFloat, scale: CGFloat = UIScreen.main.scale) {
-        guard !emoji.isEmpty, scale > 1 else { return nil }
+        guard !emoji.isEmpty, scale >= 1 else { return nil }
         let font = CTFontCreateWithName("AppleColorEmoji" as CFString, size * scale, nil)
         
         let string = NSAttributedString(string: emoji,
@@ -148,8 +148,8 @@ public extension UIImage {
     /// - Parameters:
     ///   - color: The color.
     ///   - size: New image's size.  Default: CGSize(width: 1, height: 1)
-    ///   - scale: The scale factor.  Default: UIScreen.main.scale
-    convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1), scale: CGFloat = UIScreen.main.scale) {
+    ///   - scale: The scale factor.  Default: 1
+    convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1), scale: CGFloat = 1) {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         defer { UIGraphicsEndImageContext() }
 
