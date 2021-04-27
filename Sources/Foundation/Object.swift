@@ -34,27 +34,33 @@ extension AssociatedWrapper where Base: NSObject {
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_ASSIGN
-    public func set(assign key: UnsafeRawPointer, _ value: Any) {
+    @discardableResult
+    public func set<T>(assign key: UnsafeRawPointer, _ value: T) -> T {
         objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_ASSIGN)
+        return value
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_RETAIN_NONATOMIC / OBJC_ASSOCIATION_RETAIN
-    public func set(retain key: UnsafeRawPointer, _ value: Any?, _ policy: Policy = .nonatomic) {
+    @discardableResult
+    public func set<T>(retain key: UnsafeRawPointer, _ value: T?, _ policy: Policy = .nonatomic) -> T? {
         switch policy {
         case .nonatomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         case .atomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_RETAIN)
         }
+        return value
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_COPY_NONATOMIC / OBJC_ASSOCIATION_COPY
-    public func set(copy key: UnsafeRawPointer, _ value: Any?, _ policy: Policy = .nonatomic) {
+    @discardableResult
+    public func set<T>(copy key: UnsafeRawPointer, _ value: T?, _ policy: Policy = .nonatomic) -> T? {
         switch policy {
         case .nonatomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         case .atomic:
             objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_COPY)
         }
+        return value
     }
 }
