@@ -502,9 +502,9 @@ extension UIImage {
 
 extension CGRect {
     
-    fileprivate func fit(with size: CGSize, contentMode: UIView.ContentMode) -> CGRect {
+    fileprivate func fit(with targetSize: CGSize, contentMode: UIView.ContentMode) -> CGRect {
         var center: CGPoint { CGPoint(x: standardized.midX, y: standardized.midY) }
-        var size: CGSize { CGSize(width: abs(size.width), height: abs(size.height))}
+        var size: CGSize { CGSize(width: abs(targetSize.width), height: abs(targetSize.height))}
         
         switch contentMode {
         case .scaleAspectFit, .scaleAspectFill:
