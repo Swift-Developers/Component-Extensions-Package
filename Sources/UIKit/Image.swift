@@ -30,12 +30,13 @@ extension CGImage {
 extension UIImage {
     
     /// 根据质量压缩
-    /// - Parameter maxLength: 最大字节
-    public func compressedQuality(_ maxLength: UInt64 = 1024 * 1024) -> UIImage? {
-        guard
-            var data = jpegData(compressionQuality: 1),
-            data.count > maxLength else {
-            return self
+    /// - Parameter maxLength: 最大字节 默认1MB
+    public func compressedQuality(_ maxLength: UInt64 = 1024 * 1024) -> Data? {
+        guard var data = jpegData(compressionQuality: 1) else {
+            return nil
+        }
+        guard data.count > maxLength else {
+            return data
         }
         
         var max: CGFloat = 1
@@ -53,45 +54,47 @@ extension UIImage {
                 break
             }
         }
-        return UIImage(data: data, scale: scale)
+        return data
     }
     
     /// 根据尺寸压缩
-    /// - Parameter maxLength: 最大字节
-    public func compressedSize(_ maxLength: UInt64 = 1024 * 1024) -> UIImage? {
-        guard
-            var data = jpegData(compressionQuality: 1),
-            data.count > maxLength else {
-            return self
+    /// - Parameter maxLength: 最大字节 默认1MB
+    public func compressedSize(_ maxLength: UInt64 = 1024 * 1024) -> Data? {
+        guard var data = jpegData(compressionQuality: 1) else {
+            return nil
+        }
+        guard data.count > maxLength else {
+            return data
         }
         
-        var result = self
+        var temp = self
         var lastDataLength = 0
         while data.count > maxLength, data.count != lastDataLength {
             lastDataLength = data.count
             let ratio = CGFloat(maxLength) / CGFloat(data.count)
-            let size = CGSize(width: Int(result.size.width * sqrt(ratio)),
-                              height: Int(result.size.height * sqrt(ratio)))
+            let size = CGSize(width: Int(temp.size.width * sqrt(ratio)),
+                              height: Int(temp.size.height * sqrt(ratio)))
             UIGraphicsBeginImageContext(size)
-            result.draw(in: CGRect(origin: .zero, size: size))
-            result = UIGraphicsGetImageFromCurrentImageContext()!
+            temp.draw(in: .init(origin: .zero, size: size))
+            temp = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
             
-            data = result.jpegData(compressionQuality: 1) ?? Data()
+            data = temp.jpegData(compressionQuality: 1) ?? Data()
         }
-        return result
+        return data
     }
     
-    /// 压缩 (根据质量和尺寸)
-    /// - Parameter maxLength: 最大字节
-    public func compressed(maxLength: UInt64 = 1024 * 1024) -> UIImage? {
-        guard let image = compressedQuality(maxLength) else {
-            return self
+    /// 压缩 (先根据质量压缩 如果质量无法满足则再根据尺寸压缩)
+    /// - Parameter maxLength: 最大字节 默认1MB
+    /// - Returns: 压缩后的数据 如果压缩失败则返回nil
+    public func compressed(maxLength: UInt64 = 1024 * 1024) -> Data? {
+        guard let data = compressedQuality(maxLength) else {
+            return nil
         }
-        guard let result = image.compressedSize(maxLength) else {
-            return self
+        guard data.count > maxLength else {
+            return data
         }
-        return result
+        return UIImage(data: data, scale: scale)?.compressedSize(maxLength) ?? data
     }
 }
 
