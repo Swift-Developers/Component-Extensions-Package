@@ -30,8 +30,10 @@ extension CGImage {
 extension UIImage {
     
     /// 根据质量压缩
-    /// - Parameter maxLength: 最大字节 默认1MB
-    public func compressedQuality(_ maxLength: UInt64 = 1024 * 1024) -> Data? {
+    /// - Parameters:
+    ///   - maxLength: 最大字节 默认1MB
+    ///   - isForce: 是否强制压缩到小于最大字节
+    public func compressedQuality(_ maxLength: UInt64 = 1024 * 1024, with isForce: Bool = true) -> Data? {
         guard var data = jpegData(compressionQuality: 1) else {
             return nil
         }
@@ -42,9 +44,10 @@ extension UIImage {
         var max: CGFloat = 1
         var min: CGFloat = 0
         var compression: CGFloat = 1
-        for _ in 0 ..< 6 {
+        
+        for _ in 0 ..< (isForce ? .max : 6) {
             compression = (max + min) / 2
-            data = jpegData(compressionQuality: compression) ?? Data()
+            data = jpegData(compressionQuality: compression) ?? .init()
             
             if CGFloat(data.count) < CGFloat(maxLength) * 0.9 {
                 min = compression
@@ -88,7 +91,7 @@ extension UIImage {
     /// - Parameter maxLength: 最大字节 默认1MB
     /// - Returns: 压缩后的数据 如果压缩失败则返回nil
     public func compressed(maxLength: UInt64 = 1024 * 1024) -> Data? {
-        guard let data = compressedQuality(maxLength) else {
+        guard let data = compressedQuality(maxLength, with: false) else {
             return nil
         }
         guard data.count > maxLength else {
