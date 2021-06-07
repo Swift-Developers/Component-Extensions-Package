@@ -49,7 +49,7 @@ extension UIImage {
             compression = (max + min) / 2
             data = jpegData(compressionQuality: compression) ?? .init()
             
-            if CGFloat(data.count) < CGFloat(maxLength) * 0.9 {
+            if CGFloat(data.count) < CGFloat(maxLength) * 0.9, compression < 0.99 {
                 min = compression
             } else if data.count > maxLength {
                 max = compression
