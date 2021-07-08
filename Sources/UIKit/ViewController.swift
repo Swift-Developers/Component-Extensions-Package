@@ -122,8 +122,8 @@ extension UIViewController {
             switch newValue {
             case .portrait:             value = UIDeviceOrientation.portrait.rawValue
             case .portraitUpsideDown:   value = UIDeviceOrientation.portraitUpsideDown.rawValue
-            case .landscapeLeft:        value = UIDeviceOrientation.landscapeLeft.rawValue
-            case .landscapeRight:       value = UIDeviceOrientation.landscapeRight.rawValue
+            case .landscapeLeft:        value = UIDeviceOrientation.landscapeRight.rawValue
+            case .landscapeRight:       value = UIDeviceOrientation.landscapeLeft.rawValue
             default:                    value = UIDeviceOrientation.portrait.rawValue
             }
             UIDevice.current.setValue(value, forKey: "orientation")
