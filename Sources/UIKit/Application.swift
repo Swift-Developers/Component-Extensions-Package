@@ -23,3 +23,42 @@ extension UIApplication {
         ProcessInfo.processInfo.operatingSystemVersionString
     }
 }
+
+extension UIApplication {
+    
+    public var window: UIWindow? {
+        if #available(iOS 13.0, *) {
+            let windows: [UIWindow] = UIApplication.shared.connectedScenes.compactMap { scene in
+                guard let scene = scene as? UIWindowScene else { return nil }
+                guard scene.session.role == .windowApplication else { return nil }
+                guard let delegate = scene.delegate as? UIWindowSceneDelegate else { return nil }
+                guard let window = delegate.window else { return nil }
+                guard let window = window else { return nil }
+                return window
+            }
+            
+            if windows.isEmpty {
+                guard let delegate = UIApplication.shared.delegate else { return nil }
+                guard let window = delegate.window else { return nil }
+                return window
+                
+            } else {
+                return windows.first
+            }
+            
+        } else {
+            guard let delegate = UIApplication.shared.delegate else { return nil }
+            guard let window = delegate.window else { return nil }
+            return window
+        }
+    }
+    
+    public static var statusBarSize: CGSize {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.window?.windowScene?.statusBarManager?.statusBarFrame.size ?? UIApplication.shared.statusBarFrame.size
+            
+        } else {
+            return UIApplication.shared.statusBarFrame.size
+        }
+    }
+}
