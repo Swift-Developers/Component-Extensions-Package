@@ -9,6 +9,12 @@ extension CGSize {
         self.height = height
     }
     
+    public init(width: CGFloat = .zero, height: CGFloat = .zero) {
+        self.init()
+        self.width = width
+        self.height = height
+    }
+    
     /// Returns a copy with the width value changed.
     public func with(width: CGFloat) -> CGSize {
         return .init(width: width, height: height)

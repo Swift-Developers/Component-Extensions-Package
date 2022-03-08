@@ -9,6 +9,12 @@ extension CGPoint {
         self.y = y
     }
     
+    public init(x: CGFloat = 0, y: CGFloat = 0) {
+        self.init()
+        self.x = x
+        self.y = y
+    }
+    
     /// Returns a copy with the x value changed.
     public func with(x: CGFloat) -> CGPoint {
         return .init(x: x, y: y)
