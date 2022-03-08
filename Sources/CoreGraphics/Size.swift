@@ -9,9 +9,15 @@ extension CGSize {
         self.height = height
     }
     
-    public init(width: CGFloat = .zero, height: CGFloat = .zero) {
+    public init(width: CGFloat) {
         self.init()
         self.width = width
+        self.height = 0
+    }
+    
+    public init(height: CGFloat = .zero) {
+        self.init()
+        self.width = 0
         self.height = height
     }
     

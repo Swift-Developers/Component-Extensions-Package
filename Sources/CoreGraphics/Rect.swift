@@ -16,12 +16,6 @@ extension CGRect {
         self.size = CGSize(width: width, height: height)
     }
     
-    public init(x: CGFloat = .zero, y: CGFloat = .zero, width: CGFloat = .zero, height: CGFloat = .zero) {
-        self.init()
-        self.origin = CGPoint(x: x, y: y)
-        self.size = CGSize(width: width, height: height)
-    }
-    
     // MARK: access shortcuts
     /// Alias for origin.x.
     public var x: CGFloat {
