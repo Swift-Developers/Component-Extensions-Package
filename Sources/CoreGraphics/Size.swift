@@ -15,7 +15,7 @@ extension CGSize {
         self.height = 0
     }
     
-    public init(height: CGFloat = .zero) {
+    public init(height: CGFloat) {
         self.init()
         self.width = 0
         self.height = height
