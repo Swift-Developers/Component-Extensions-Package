@@ -14,9 +14,7 @@ public protocol AssociatedCompatible {
 
 extension AssociatedCompatible {
     
-    public var associated: AssociatedWrapper<Self> {
-        get { return AssociatedWrapper(self) }
-    }
+    public var associated: AssociatedWrapper<Self> { AssociatedWrapper(self) }
 }
 
 extension NSObject: AssociatedCompatible { }
@@ -31,6 +29,14 @@ extension AssociatedWrapper where Base: NSObject {
     /// 获取关联值
     public func get<T>(_ key: UnsafeRawPointer) -> T? {
         objc_getAssociatedObject(base, key) as? T
+    }
+    /// 获取关联值   default: 默认值
+    public func get<T>(_ key: UnsafeRawPointer, default value: T) -> T {
+        guard let value: T = objc_getAssociatedObject(base, key) as? T else {
+            objc_setAssociatedObject(base, key, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return value
+        }
+        return value
     }
     
     /// 设置关联值 OBJC_ASSOCIATION_ASSIGN
