@@ -2,6 +2,10 @@ import UIKit
 
 extension UIEdgeInsets {
     
+    public init(_ all: CGFloat) {
+        self.init(top: all, left: all, bottom: all, right: all)
+    }
+
     public init(_ t: CGFloat, _ l: CGFloat, _ b: CGFloat, _ r: CGFloat) {
         self.init(top: t, left: l, bottom: b, right: r)
     }
