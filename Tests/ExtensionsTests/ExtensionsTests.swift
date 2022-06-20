@@ -143,3 +143,57 @@ extension ExtensionsTests {
         }
     }
 }
+
+extension ExtensionsTests {
+    
+    func testEncode() {
+        struct Model: Codable, Equatable {
+            let name: String
+            let id: Int
+        }
+        
+        // 结构体string data model 转换
+        do {
+            let model: Model = .init(name: "a", id: 0)
+            let json = #"{"name":"a","id":0}"#
+            XCTAssertEqual(try model.jsonString(), json)
+            XCTAssertEqual(try model.jsonData().jsonString(), json)
+            XCTAssertEqual(model, try JSONDecoder().decode(Model.self, from: model.jsonString()))
+            XCTAssertEqual(model, try JSONDecoder().decode(Model.self, from: model.jsonData()))
+            
+            if let string = try? model.jsonData().toJSON() as? [String: Any] {
+                print(string)
+            }
+
+            if let string = try? model.toJSON() as? [String: Any] {
+                print(string)
+            }
+
+            if let string = try? json.toJSON() as? [String: Any] {
+                print(string)
+            }
+        }
+        
+        // 数组string data model 转换
+        do {
+            let json = #"[{"name":"a","id":0},{"name":"b","id":1},{"name":"c","id":2}]"#
+            let array: [Model] = [.init(name: "a", id: 0), .init(name: "b", id: 1), .init(name: "c", id: 2)]
+            
+            XCTAssertEqual(try array.jsonString() , json)
+            XCTAssertEqual(array, try JSONDecoder().decode([Model].self, from: array.jsonString()))
+            XCTAssertEqual(array, try JSONDecoder().decode([Model].self, from: array.jsonData()))
+            
+            if let string = try? array.jsonData().toJSON() {
+                print(string)
+            }
+            
+            if let string = try? array.toJSON() {
+                print(string)
+            }
+            
+            if let string = try? array.toJSON() {
+                print(string)
+            }
+        }
+    }
+}

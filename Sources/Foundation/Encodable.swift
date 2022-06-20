@@ -3,14 +3,91 @@ import Foundation
 extension Encodable {
     
     @inline(__always)
-    public func toJSONData(using encoder: JSONEncoder = .init()) throws -> Data {
+    public func jsonData(using encoder: JSONEncoder = .init()) throws -> Data {
         return try encoder.encode(self)
     }
     
     @inline(__always)
-    public func toJSONString(using encoder: JSONEncoder = .init()) -> String? {
-        guard let data = try? toJSONData(using: encoder) else { return nil }
-        
+    public func jsonString(using encoder: JSONEncoder = .init()) throws -> String? {
+        let data = try jsonData(using: encoder)
+        return String(data: data, encoding: .utf8)
+    }
+    
+    /// Encodable 类型转 json 字典
+    /// - Returns: json 字典
+    @inline(__always)
+    public func toJSON(using encoder: JSONEncoder = .init(), options: JSONSerialization.ReadingOptions = []) throws -> Any {
+        let data = try jsonData(using: encoder)
+        return try JSONSerialization.jsonObject(with: data, options: options)
+    }
+}
+
+extension Encodable where Self == String {
+    
+    /// 字符串 类型转 data
+    /// - Parameter encoder: JSONEncoder
+    /// - Returns:  json 字符串
+    @inline(__always)
+    public func jsonData(using encoder: JSONEncoder = .init()) throws -> Data {
+        guard let data = self.data(using: .utf8) else {
+            throw NSError(domain: "string to data fail", code: 0)
+        }
+        return data
+    }
+    
+    @inline(__always)
+    public func jsonString(using encoder: JSONEncoder = .init()) throws -> String? {
+        self
+    }
+    
+    /// Encodable 类型转 json 字典
+    /// - Returns: json 字典
+    @inline(__always)
+    public func toJSON(using encoder: JSONEncoder = .init(), options: JSONSerialization.ReadingOptions = []) throws -> Any {
+        let data = try jsonData(using: encoder)
+        return try JSONSerialization.jsonObject(with: data, options: options)
+    }
+}
+
+extension Encodable where Self == Data {
+    
+    @inline(__always)
+    public func jsonData(using encoder: JSONEncoder = .init()) throws -> Data {
+        self
+    }
+    
+    /// Data 类型转 json 字符串
+    /// - Parameter encoder: JSONEncoder
+    /// - Returns:  json 字符串
+    @inline(__always)
+    public func jsonString(using encoder: JSONEncoder = .init()) -> String? {
+        return String(data: self, encoding: .utf8)
+    }
+    
+    /// Encodable 类型转 json 字典
+    /// - Returns: json 字典
+    @inline(__always)
+    public func toJSON(using encoder: JSONEncoder = .init(), options: JSONSerialization.ReadingOptions = []) throws -> Any {
+        return try JSONSerialization.jsonObject(with: self, options: options)
+    }
+}
+
+extension Array {
+    
+    /// 数组转JSON字符串
+    @inline(__always)
+    public func jsonString(using encoder: JSONEncoder = .init()) throws -> String? {
+        let data = try JSONSerialization.data(withJSONObject: self, options: .init(rawValue: 0))
+        return String(data: data, encoding: .utf8)
+    }
+}
+
+extension Array where Element: Encodable {
+    
+    /// 数组转JSON字符串
+    @inline(__always)
+    public func jsonString(using encoder: JSONEncoder = .init()) throws -> String? {
+        let data = try jsonData(using: encoder)
         return String(data: data, encoding: .utf8)
     }
 }

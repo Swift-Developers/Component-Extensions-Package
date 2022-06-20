@@ -334,7 +334,7 @@ extension UIView {
     
     private static let swizzlePointInside: Void = {
         guard let originalMethod = class_getInstanceMethod(UIView.self, #selector(point(inside:with:))),
-              let swizzledMethod = class_getInstanceMethod(UIView.self, #selector(swizzled_point(inside:with:)))
+              let swizzledMethod = class_getInstanceMethod(UIView.self, #selector(ex_swizzled_point(inside:with:)))
         else { return }
         method_exchangeImplementations(originalMethod, swizzledMethod)
     }()
@@ -342,14 +342,15 @@ extension UIView {
     @available(iOS 13.0, *)
     private static let swizzleTraitCollection: Void = {
         guard let originalMethod = class_getInstanceMethod(UIView.self, #selector(traitCollectionDidChange(_:))),
-              let swizzledMethod = class_getInstanceMethod(UIView.self, #selector(swizzled_traitCollectionDidChange(_:)))
+              let swizzledMethod = class_getInstanceMethod(UIView.self, #selector(ex_swizzled_traitCollectionDidChange(_:)))
         else { return }
         method_exchangeImplementations(originalMethod, swizzledMethod)
     }()
     
     @available(iOS 13.0, *)
-    @objc func swizzled_traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        swizzled_traitCollectionDidChange(previousTraitCollection)
+    @objc
+    private func ex_swizzled_traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        ex_swizzled_traitCollectionDidChange(previousTraitCollection)
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             if let borderColor = borderColor {
                 layer.borderColor = borderColor.resolvedColor(with: traitCollection).cgColor
@@ -360,7 +361,8 @@ extension UIView {
         }
     }
     
-    @objc func swizzled_point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    @objc
+    private func ex_swizzled_point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         bounds.inset(by: hitTestSlop).contains(point)
     }
 }
