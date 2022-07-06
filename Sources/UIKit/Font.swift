@@ -10,17 +10,20 @@ extension UIFont {
             return self
         }
         
-        let settings: [[UIFontDescriptor.FeatureKey: Any]] = [
-            [.featureIdentifier: kNumberSpacingType,
-             .typeIdentifier: kMonospacedNumbersSelector],
-            [.featureIdentifier: kCharacterAlternativesType,
-             .typeIdentifier: kMonospacedNumbersSelector]
-        ]
-        
-        let attributes: [UIFontDescriptor.AttributeName: Any] = [
-            .featureSettings: settings
-        ]
-        let new = fontDescriptor.addingAttributes(attributes)
+        let setting: [UIFontDescriptor.FeatureKey: Any]
+        if #available(iOS 15.0, *) {
+            setting = [
+                UIFontDescriptor.FeatureKey.type: kNumberSpacingType,
+                UIFontDescriptor.FeatureKey.selector: kMonospacedNumbersSelector
+            ]
+            
+        } else {
+            setting = [
+                UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
+                UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector
+            ]
+        }
+        let new = fontDescriptor.addingAttributes([.featureSettings: [setting]])
         return UIFont(descriptor: new, size: 0)
     }
 }
