@@ -211,15 +211,21 @@ public extension UIView {
 }
 
 extension UIView {
+    
     private struct AssociateKey {
         static var borderColor: Void?
         static var shadowColor: Void?
         static var hitTestSlop: Void?
     }
     
+    
+    /// 注意: 会导致 layer.masksToBounds 为true
     open var cornerRadius: CGFloat {
         get { layer.cornerRadius }
-        set { layer.cornerRadius = newValue }
+        set {
+            layer.masksToBounds = true
+            layer.cornerRadius = newValue
+        }
     }
     
     open var zPosition: CGFloat {
