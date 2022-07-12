@@ -91,3 +91,15 @@ extension Array where Element: Encodable {
         return String(data: data, encoding: .utf8)
     }
 }
+
+extension Encodable {
+    
+    /// 控制台 打印格式化的json
+    /// - Returns: 格式化后的字符串
+    public func prettyPrinted() -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try? encoder.encode(self)
+        return String(data: data ?? Data(), encoding: .utf8) ?? "Failed to generate JSON string"
+    }
+}

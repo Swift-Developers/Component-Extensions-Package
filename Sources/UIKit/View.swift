@@ -220,6 +220,7 @@ extension UIView {
     
     
     /// 注意: 会导致 layer.masksToBounds 为true
+    @objc
     open var cornerRadius: CGFloat {
         get { layer.cornerRadius }
         set {
@@ -228,36 +229,43 @@ extension UIView {
         }
     }
     
+    @objc
     open var zPosition: CGFloat {
         get { layer.zPosition }
         set { layer.zPosition = newValue }
     }
     
+    @objc
     open var borderWidth: CGFloat {
         get { layer.borderWidth }
         set { layer.borderWidth = newValue }
     }
     
+    @objc
     open var shadowOpacity: CGFloat {
         get { CGFloat(layer.shadowOpacity) }
         set { layer.shadowOpacity = Float(newValue) }
     }
     
+    @objc
     open var shadowRadius: CGFloat {
         get { layer.shadowRadius }
         set { layer.shadowRadius = newValue }
     }
     
+    @objc
     open var shadowOffset: CGSize {
         get { layer.shadowOffset }
         set { layer.shadowOffset = newValue }
     }
     
+    @objc
     open var shadowPath: UIBezierPath? {
         get { layer.shadowPath.map { UIBezierPath(cgPath: $0) } }
         set { layer.shadowPath = newValue?.cgPath }
     }
     
+    @objc
     open var hitTestSlop: UIEdgeInsets {
         get {
             (objc_getAssociatedObject(self, &AssociateKey.hitTestSlop) as? NSValue)?.uiEdgeInsetsValue ?? .zero
@@ -268,6 +276,7 @@ extension UIView {
         }
     }
     
+    @objc
     open var borderColor: UIColor? {
         get {
             if #available(iOS 13.0, *) {
@@ -289,6 +298,7 @@ extension UIView {
         }
     }
     
+    @objc
     open var shadowColor: UIColor? {
         get {
             if #available(iOS 13.0, *) {
@@ -309,6 +319,7 @@ extension UIView {
         }
     }
     
+    @objc
     open var frameWithoutTransform: CGRect {
         get {
             CGRect(center: center, size: bounds.size)
@@ -322,6 +333,7 @@ extension UIView {
         }
     }
     
+    @objc
     open var firstResponder: UIView? {
         if isFirstResponder {
             return self
@@ -333,6 +345,9 @@ extension UIView {
         }
         return nil
     }
+    
+    /// 此view是否正在执行动画中
+    open var isAnimating: Bool { layer.animationKeys()?.isEmpty ?? false }
     
     open class var isInAnimationBlock: Bool {
         UIView.perform(NSSelectorFromString("_isInAnimationBlock")) != nil
@@ -374,6 +389,7 @@ extension UIView {
 }
 
 extension UIView {
+    
     public func superview<T: UIView>(matchingType _: T.Type) -> T? {
         var current: UIView? = self
         while let next = current?.superview {

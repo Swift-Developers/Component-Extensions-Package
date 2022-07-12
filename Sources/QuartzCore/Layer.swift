@@ -72,3 +72,32 @@ extension CALayer {
         beginTime = timeSincePause
     }
 }
+
+extension CALayer {
+    
+    /// 设置阴影 (shadow)
+    /// - Parameters:
+    ///   - color: 颜色
+    ///   - radius: 面积
+    ///   - offset: 偏移
+    ///   - opacity: 透明度
+    public func addShadow(ofColor color: UIColor,
+                   radius: CGFloat = 3,
+                   offset: CGSize = .zero,
+                   opacity: Float = 1) {
+        shadowColor = color.cgColor
+        shadowOffset = offset
+        shadowRadius = radius
+        shadowOpacity = opacity
+        masksToBounds = false
+    }
+    
+    /// 设置边框 (border)
+    /// - Parameters:
+    ///   - color: 颜色
+    ///   - width: 边宽
+    public func addBorder(ofColor color: UIColor, width: CGFloat = 1) {
+        borderColor = color.cgColor
+        borderWidth = width
+    }
+}
