@@ -162,10 +162,10 @@ public extension UIImage {
         color.setFill()
         UIRectFill(CGRect(origin: .zero, size: size))
 
-        guard let aCgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage else {
+        guard let result = UIGraphicsGetImageFromCurrentImageContext()?.cgImage else {
             return nil
         }
-        self.init(cgImage: aCgImage)
+        self.init(cgImage: result, scale: scale, orientation: .up)
     }
     
     /// Create and return an image with custom draw code.
@@ -180,10 +180,10 @@ public extension UIImage {
             return nil
         }
         draw(context)
-        guard let aCgImage = UIGraphicsGetImageFromCurrentImageContext()?.cgImage else {
+        guard let result = UIGraphicsGetImageFromCurrentImageContext()?.cgImage else {
             return nil
         }
-        self.init(cgImage: aCgImage)
+        self.init(cgImage: result, scale: scale, orientation: .up)
     }
 }
 
