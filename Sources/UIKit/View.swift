@@ -347,8 +347,10 @@ extension UIView {
     }
     
     /// 此view是否正在执行动画中
+    @objc
     open var isAnimating: Bool { layer.animationKeys()?.isEmpty ?? false }
     
+    @objc
     open class var isInAnimationBlock: Bool {
         UIView.perform(NSSelectorFromString("_isInAnimationBlock")) != nil
     }
@@ -419,6 +421,8 @@ extension UIView {
 }
 
 extension UIView {
+    
+    @objc
     open var parentViewController: UIViewController? {
         var responder: UIResponder? = self
         while responder is UIView {
@@ -427,18 +431,22 @@ extension UIView {
         return responder as? UIViewController
     }
     
+    @objc
     open var presentedViewController: UIViewController? {
         parentViewController?.presentedViewController
     }
     
+    @objc
     open var presentingViewController: UIViewController? {
         parentViewController?.presentingViewController
     }
     
+    @objc
     open func present(_ viewController: UIViewController, completion: (() -> Void)? = nil) {
         parentViewController?.present(viewController, animated: true, completion: completion)
     }
     
+    @objc
     open func push(_ viewController: UIViewController) {
         parentViewController?.navigationController?.pushViewController(viewController, animated: true)
     }

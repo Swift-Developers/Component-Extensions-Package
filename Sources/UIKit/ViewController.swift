@@ -5,6 +5,7 @@ extension UIViewController {
     /// 添加子控制器
     /// - Parameter controller: 控制器
     /// - Parameter container: 容器视图 默认为父控制器view
+    @objc
     open func add(child controller: UIViewController, to container: UIView? = .none) {
         addChild(controller)
         (container ?? view)?.addSubview(controller.view)
@@ -14,6 +15,7 @@ extension UIViewController {
     }
     
     /// 从父控制器移除
+    @objc
     open func removeFromParentController() {
         willMove(toParent: nil)
         view.removeFromSuperview()
@@ -23,6 +25,7 @@ extension UIViewController {
     /// 推出控制器 无NavigationController时则present一个NavigationController
     /// - Parameter controller: 控制器
     /// - Parameter animated: 是否动画
+    @objc
     open func push(_ controller: UIViewController, from nav: UINavigationController.Type = UINavigationController.self, animated: Bool = true) {
         if let navigation = self as? UINavigationController {
             navigation.pushViewController(controller, animated: animated)
