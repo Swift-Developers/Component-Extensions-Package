@@ -125,3 +125,32 @@ public func > <Element, T: Comparable>(_ leftAttribute: KeyPath<Element, T>, _ r
 public func > <Element, T: Comparable>(_ attribute: KeyPath<Element, T>, _ treshold: T) -> KeyPathSingleTypePredicate<Element> {
     return KeyPathSingleTypePredicate(evaluator: { lhs, _ in lhs[keyPath: attribute] > treshold })
 }
+
+public extension Collection {
+
+    func max<T: Comparable>(by attribute: KeyPath<Element, T>) -> Element? {
+        return self.max(by: { $0[keyPath: attribute] < $1[keyPath: attribute] })
+    }
+
+    func max<T: Comparable>(_ attribute: KeyPath<Element, T>) -> T? {
+        return self.max(by: attribute)?[keyPath: attribute]
+    }
+}
+
+public extension Collection {
+    
+    func min<T: Comparable>(by attribute: KeyPath<Element, T>) -> Element? {
+        return self.min(by: { $0[keyPath: attribute] < $1[keyPath: attribute] })
+    }
+
+    func min<T: Comparable>(_ attribute: KeyPath<Element, T>) -> T? {
+        return self.min(by: attribute)?[keyPath: attribute]
+    }
+}
+
+public extension Sequence {
+    
+    func flatMap<T>(_ attribute: KeyPath<Element, [T]>) -> [T] {
+        return flatMap { $0[keyPath: attribute] }
+    }
+}
