@@ -25,20 +25,33 @@ public struct KeyPathSingleTypePredicate<Element> {
 }
 
 extension Sequence {
+    
+    @inlinable
     public func prefix(while predicate: KeyPathSingleTypePredicate<Element>) -> [Self.Element] {
         return prefix(while: { predicate.evaluate(for: $0) })
     }
     
+    @inlinable
     public func first(where predicate: KeyPathSingleTypePredicate<Element>) -> Element? {
         return first(where: { predicate.evaluate(for: $0)} )
     }
     
+    @inlinable
     public func filter(where predicate: KeyPathSingleTypePredicate<Element>) -> [Element] {
         return filter { predicate.evaluate(for: $0) }
     }
     
+    @inlinable
     public func contains(where predicate: KeyPathSingleTypePredicate<Element>) -> Bool {
         return contains(where: { predicate.evaluate(for: $0) })
+    }
+}
+
+extension Array {
+    
+    @inlinable
+    public func firstIndex(where predicate: KeyPathSingleTypePredicate<Element>) -> Int? {
+        return firstIndex(where: { predicate.evaluate(for: $0) })
     }
 }
 
