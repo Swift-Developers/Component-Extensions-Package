@@ -23,11 +23,50 @@ extension Array where Element: Equatable {
     }
 }
 
+extension Array {
+    
+    /// 更新某个元素
+    /// - Parameter predicate: 查询闭包
+    /// - Parameter updating: 更新闭包
+    public mutating func update(where predicate: (Self.Element) throws -> Bool, updating: (inout Element) -> Void) rethrows {
+        self =  try reduce(into: [Element]()) {
+            if try predicate($1) {
+                var element = $1
+                updating(&element)
+                $0.append(element)
+            } else {
+                $0.append($1)
+            }
+        }
+    }
+    
+    /// 更新某个元素
+    /// - Parameter predicate: 查询闭包
+    /// - Parameter updating: 更新闭包
+    public func updated(where predicate: (Self.Element) throws -> Bool, updating: (inout Element) -> Void) rethrows -> [Element] {
+        return try reduce(into: [Element]()) {
+            if try predicate($1) {
+                var element = $1
+                updating(&element)
+                $0.append(element)
+            } else {
+                $0.append($1)
+            }
+        }
+    }
+}
+
 extension Array where Element: Equatable {
     
     /// 移除重复元素
     public func deduplication() -> [Element] {
         return deduplication(where: { $0 })
+    }
+    
+    /// 移除元素
+    public mutating func remove(object: Element) {
+        guard let index = firstIndex(of: object) else {return}
+        remove(at: index)
     }
 }
 
@@ -88,5 +127,43 @@ extension Array {
         return stride(from: 0, to: endIndex, by: step).map {
             Array(self[$0 ... ($0 + (Swift.min(endIndex - $0, step) - 1))])
         }
+    }
+}
+
+extension Array {
+    
+    /// 符合条件的下一个元素
+    /// - Parameter closure: 条件闭包
+    public func item(after closure: (Element) throws -> Bool) rethrows -> Element? {
+        guard let index = try firstIndex(where: closure),
+              index + 1 <= count - 1 else {
+            return nil
+        }
+        return self[index + 1]
+    }
+    
+    /// 符合条件的上一个元素
+    /// - Parameter closure: 条件闭包
+    public func item(before closure: (Element) throws -> Bool) rethrows -> Element? {
+        
+        guard let index = try firstIndex(where: closure),
+              index - 1 >= 0 else {
+            return nil
+        }
+        return self[index - 1]
+    }
+}
+
+extension Sequence {
+    
+    public func scan<ResultElement>(
+        _ initial: ResultElement,
+        _ nextPartialResult: (ResultElement, Element) -> ResultElement
+        ) -> [ResultElement] {
+        var result: [ResultElement] = []
+        for x in self {
+            result.append(nextPartialResult(result.last ?? initial, x))
+        }
+        return result
     }
 }

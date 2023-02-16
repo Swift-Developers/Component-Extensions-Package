@@ -1,12 +1,21 @@
 import Foundation
 
 extension DispatchQueue {
+    
     public func delay(_ delay: TimeInterval = 0, execute: @escaping () -> Void) {
         asyncAfter(deadline: .now() + delay, execute: execute)
     }
     
     public func delay(_ delay: TimeInterval = 0, execute: DispatchWorkItem) {
         asyncAfter(deadline: .now() + delay, execute: execute)
+    }
+    
+    public static func delay(_ delay: TimeInterval = 0, execute: @escaping () -> Void) {
+        main.asyncAfter(deadline: .now() + delay, execute: execute)
+    }
+    
+    public static func delay(_ delay: TimeInterval = 0, execute: DispatchWorkItem) {
+        main.asyncAfter(deadline: .now() + delay, execute: execute)
     }
 }
 

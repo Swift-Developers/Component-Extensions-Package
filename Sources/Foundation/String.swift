@@ -24,6 +24,7 @@ extension String {
 }
 
 extension String {
+    
     public static let attachmentCharacter: String = "\u{FFFC}"
     
     // used for NSString related task. since .count is not always equal to .length for emojis etc..
@@ -49,7 +50,24 @@ extension String {
     }
 }
 
+extension String {
+    
+    public func ranges(of string: String,
+                options: CompareOptions = .caseInsensitive,
+                locale: Locale = .current) -> [Range<String.Index>] {
+        guard var searchedRange = range(of: self) else { return [] }
+        
+        var ranges: [Range<String.Index>] = []
+        while let range = self.range(of: string, options: options, range: searchedRange, locale: locale) {
+            ranges.append(range)
+            searchedRange = Range(uncheckedBounds: (range.upperBound, searchedRange.upperBound))
+        }
+        return ranges
+    }
+}
+
 extension NSString {
+    
     public var numberOfWords: Int {
         let inputRange = CFRangeMake(0, length)
         let flag = UInt(kCFStringTokenizerUnitWord)
@@ -63,5 +81,21 @@ extension NSString {
             tokenType = CFStringTokenizerAdvanceToNextToken(tokenizer)
         }
         return count
+    }
+}
+
+extension String {
+    
+    public var queryEncoded: String {
+        guard !isEmpty else { return self }
+        guard let _ = Foundation.URL(string: self) else {
+            let encoded = addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? self
+            return encoded
+        }
+        
+        let string = "?!@#$^&%*+,:;='\"`<>()[]{}/\\| "
+        let character = CharacterSet(charactersIn: string).inverted
+        let encoded = addingPercentEncoding(withAllowedCharacters: character) ?? self
+        return encoded
     }
 }

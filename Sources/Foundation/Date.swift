@@ -1,5 +1,20 @@
 import Foundation
 
+
+extension Date {
+    
+    /// 基于1970毫秒时间戳
+    public var millisecondSince1970: Int64 { Int64(timeIntervalSince1970 * 1000) }
+    
+    /// 基于当前毫秒时间戳
+    public var millisecondSinceNow: Int64 { Int64(timeIntervalSinceNow * 1000) }
+    
+    /// 两个时间是否同一天
+    public func isSameDay(_ date: Date) -> Bool {
+        Calendar.current.isDate(self, inSameDayAs: date)
+    }
+}
+
 extension Date {
     
     /// 上午/下午
