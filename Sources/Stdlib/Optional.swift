@@ -85,3 +85,17 @@ extension BinaryInteger {
     ///
     public var isZero: Bool { self == 0 }
 }
+
+extension BinaryInteger {
+    
+    public var nilIfZero: Self? {
+        isZero ? nil : self
+    }
+}
+
+extension BinaryFloatingPoint {
+    
+    public var nilIfZero: Self? {
+        isZero ? nil : self
+    }
+}
